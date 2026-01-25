@@ -15,10 +15,10 @@ namespace chatSession {
                 }
 
                 public async Task<string> HandleUserInputAsync(string userInput) {
-                        state.Messages.Add(new Message("user", userInput));
-
-                        var reply = await llm.makeRequest(state.Messages);
-                        state.Messages.Add(new Message("assistant", reply));
+                        state.messages.Add(new Message("user", userInput));
+                        // maybe I'll need to serialize state.messages 
+                        var reply = await llm.makeRequest(state.messages);
+                        state.messages.Add(new Message("assistant", reply));
                         return reply;
                 }
         }
