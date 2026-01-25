@@ -1,6 +1,7 @@
 ﻿// main entry point of the application
 
 using chatSession;
+using LLM;
 
 namespace Program {
     public class Program {
@@ -10,22 +11,32 @@ namespace Program {
                 Console.WriteLine("Entered EOF, program exit");
                 return -1;
             }
-            // do some model configuration here
+
+            // choose a model (with switch pattern matching expression)
+            ILLMClient LLMClient = modelName switch {
+                "OpenAI" => new OpenAIClient(),
+                "Claude" => new ClaudeAIClient(),
+                "Azure"  => new AzureAIClient(),
+                _ => throw new ArgumentException("bad LLM model name")
+            };
+            // start a session with the chosen model
+            ChatSession session = new ChatSession(LLMClient);
+            // initiate the actual chat
             while (true) {
-                Console.WriteLine("Enter your command (or 'exit' to quit):");
+                Console.WriteLine("Enter your prompt (or 'exit' to quit):");
                 Console.Write("> ");
                 string? userInput = Console.ReadLine();
-                if (userInput == null) {
-                    Console.WriteLine("Entered EOF, program exit");
-                    return -1;
-                } else if (userInput?.ToLower() == "exit") {
-                    break;
-                } else {
-                    Console.WriteLine($"your plan: {userInput}");
-
+                switch (userInput?.ToLower()) {
+                    case null:
+                        Console.WriteLine("Entered EOF, program exit");
+                        return -1;
+                    case "exit":
+                        return 0;
+                    default:
+                        break;
                 }
+                // session.HandleUserInputAsync(userInput);
             }
-            return 0;
         }
         static string setupModel() {
             // this function only belongs to the Program class, thus use static
