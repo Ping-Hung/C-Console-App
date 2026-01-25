@@ -11,16 +11,8 @@ namespace Program {
                 Console.WriteLine("Entered EOF, program exit");
                 return -1;
             }
-
-            // choose a model (with switch pattern matching expression)
-            ILLMClient LLMClient = modelName switch {
-                "OpenAI" => new OpenAIClient(),
-                "Claude" => new ClaudeAIClient(),
-                "Azure"  => new AzureAIClient(),
-                _ => throw new ArgumentException("bad LLM model name")
-            };
             // start a session with the chosen model
-            ChatSession session = new ChatSession(LLMClient);
+            ChatSession session = new ChatSession(modelName);
             // initiate the actual chat
             while (true) {
                 Console.WriteLine("Enter your prompt (or 'exit' to quit):");

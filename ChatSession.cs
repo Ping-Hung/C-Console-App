@@ -9,8 +9,14 @@ namespace chatSession {
                 private readonly ConversationState state = new();
                 private readonly ILLMClient llm; 
 
-                public ChatSession(ILLMClient llm) {
-                        this.llm = llm;
+                public ChatSession(string modelName) {
+                        // choose a model (with switch pattern matching expression)
+                        this.llm = modelName switch {
+                                "OpenAI" => new OpenAIClient(),
+                                "Claude" => new ClaudeAIClient(),
+                                "Azure" => new AzureAIClient(),
+                                _ => throw new ArgumentException("bad LLM model name")
+                        };
                 }
 
                 public async Task<string> HandleUserInputAsync(string userInput) {
