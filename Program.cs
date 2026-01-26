@@ -1,7 +1,5 @@
 ﻿// main entry point of the application
-
 using chatSession;
-using LLM;
 
 namespace Program {
     public class Program {
@@ -39,8 +37,10 @@ namespace Program {
                 input = Console.ReadLine()?.Trim();
                 string result = input ?? "EOF";
                 switch (result) {
-                    case "OpenAI": case "Claude":
-                    case "Azure": case "EOF":
+                    case "OpenAI":
+                    case "Claude":
+                    case "Azure":
+                    case "EOF":
                         return result;
                     default:
                         Console.WriteLine("invalid model name, try again");

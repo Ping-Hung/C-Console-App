@@ -1,23 +1,32 @@
 using States;
+using OpenAI;
+
 namespace LLM {
-        public interface ILLMClient {
-                // use interface so LLM implementations from OpenAI, Claude, or
-                // Azure OpenAI could be "plugged in" easily
-                Task<string> makeRequest(List<Message> state);
-        }
+    /// <summary>
+    ///     interface (or abstract base class in C++) of LLM implementations from
+    ///     OpenAI, Claude, or Azure OpenAI.
+    /// </summary>
+    public interface ILLMClient {
+        // note: Adaptor: the implementations should adapt to the spec of this
+        // interface, not other way around
+        Task<string> makeRequest(List<Message> state);
+    }
 
-        // the following classes implements the "contract"/"blueprint" specified by ILLMClient
-        public class OpenAIClient : ILLMClient {
-                Task<string> makeRequest(List<Message> state) {
-                        // make an api call to openai with state as parameter
-                        // might have to serialize state first before passing,
-                        // read their api specs
-                }
+    // "wrapper classes" of the sdk provided classes (if they are provided)
+    public class OpenAILLMClient : ILLMClient {
+        //  a wrapper(adaptor) class around OpenAIClient 
+        private readonly OpenAIClient client = new(
+            Environment.GetEnvironmentVariable("OPENAI_API_KEY")
+        );
+        Task<string> makeRequest(List<Message> state) {
+            // shall make calls to endpoints via client
+            // might have to serialize `state`
         }
-        public class ClaudeAIClient : ILLMClient {
+    }
+    public class ClaudeLLMClient : ILLMClient {
 
-        }
-        public class AzureAIClient : ILLMClient {
+    }
+    public class AzureLLMClient : ILLMClient {
 
-        }
+    }
 }
