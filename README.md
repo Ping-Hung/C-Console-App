@@ -16,7 +16,7 @@ a minimal data-flow diagram ![Data Flow Diagram](App_Data_Flow.png)
   + **Indeces and Range**
     - https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/ranges-indexes#type-support-for-indices-and-ranges
 4. **Adaptor Pattern**:
-  + Essentially "I have an existing class with desired functionalities, let me do something so this class adapts to the entire system".
+  + Essentially "I have an existing class with desired functionalities, let me do something around it so this class fits into the entire system".
   + Typcially use `interface` (or **abstract base class** in C++) as wrapper around a service(dependency), so the service could easily interact with the rest of the program through the client.
   + The client is implemented based on the contract defined in the `interface`/**abstract base class**.
   + Adaptors implement the client and wraps around the service.

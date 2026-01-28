@@ -30,11 +30,9 @@ namespace LLM {
         }
 
         public async Task<string> makeRequest(List<Message> state) {
-            /** 
-             * Context in the most general case is a range (subarray).
-             */
-            IContextSelector selector = new SlidingWindowContextSelector(windowSize: 2);
-            var context = selector.SelectContext(state: state);    // second last to the last
+            // Switch to other context selection approaches by implementing IContextSelector
+            IContextSelector selector = new SlidingWindowContextSelector(windowSize: 2); // send latest response as context
+            var context = selector.SelectContext(state: state);
 
             // Call the end point with context, call with serialized context
             ResponseResult response = await client
@@ -43,6 +41,7 @@ namespace LLM {
             return response.GetOutputText();    // only generated text is returned
         }
     }
+
     public class ClaudeLLMClient : ILLMClient {
         public ClaudeLLMClient() {
             throw new NotImplementedException();
@@ -51,6 +50,7 @@ namespace LLM {
             throw new NotImplementedException(); 
         }
     }
+
     public class AzureLLMClient : ILLMClient {
         public AzureLLMClient() {
             throw new NotImplementedException();
@@ -67,6 +67,7 @@ namespace LLM {
             return JsonSerializer.Serialize(value, options: options);
         }
     }
+
     public interface IContextSelector {
         // implement new strategies if want to use a different strategy
         IReadOnlyList<Message> SelectContext(IReadOnlyList<Message> state);
