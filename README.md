@@ -21,6 +21,9 @@ a minimal data-flow diagram ![Data Flow Diagram](App_Data_Flow.png)
   + The client is implemented based on the contract defined in the `interface`/**abstract base class**.
   + Adaptors implement the client and wraps around the service.
 
+# Project Status/Demo
+![demo picture](demo.png)
+
 # Resources
 ## Csharp Tutorial
 1.  https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/tutorials/
