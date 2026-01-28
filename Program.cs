@@ -25,7 +25,9 @@ namespace Program {
                     default:
                         break;
                 }
-                // session.HandleUserInputAsync(userInput);
+                // "resolve" the Task then write it to console
+                string reply = session.HandleUserInputAsync(userInput).Result;
+                Console.WriteLine(reply);
             }
         }
         static string setupModel() {

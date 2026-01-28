@@ -1,8 +1,7 @@
 using States;
-using OpenAI;
 using OpenAI.Responses;
 using System.Text.Json;
-using Microsoft.VisualBasic;
+using dotenv.net;
 
 namespace LLM {
     /// <summary>
@@ -19,10 +18,16 @@ namespace LLM {
     public class OpenAILLMClient : ILLMClient {
         // we are talking to the response endpoint:
         // https://platform.openai.com/docs/api-reference/responses/create
-        private readonly ResponsesClient client = new(
-            model: "gpt-5-nano-2025-08-07`",
-            apiKey: Environment.GetEnvironmentVariable("OPENAI_API_KEY")
-        );
+
+        private readonly ResponsesClient client; 
+
+        public OpenAILLMClient() {
+            DotEnv.Load();
+            client = new(
+                model: "gpt-5-nano-2025-08-07`",
+                apiKey: DotEnv.Read()["OPENAI_API_KEY"]
+            );
+        }
 
         public async Task<string> makeRequest(List<Message> state) {
             /** 
