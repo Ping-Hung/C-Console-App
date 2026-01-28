@@ -24,7 +24,7 @@ namespace LLM {
         public OpenAILLMClient() {
             DotEnv.Load();
             client = new(
-                model: "gpt-5-nano-2025-08-07`",
+                model: "gpt-5",
                 apiKey: DotEnv.Read()["OPENAI_API_KEY"]
             );
         }
