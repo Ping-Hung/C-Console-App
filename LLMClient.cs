@@ -16,8 +16,8 @@ namespace LLM {
 
     // "wrapper classes" of the sdk provided classes (if they are provided)
     public class OpenAILLMClient : ILLMClient {
-        // we are talking to the response endpoint:
-        // https://platform.openai.com/docs/api-reference/responses/create
+        // we are talking to the streaming endpoint
+        // https://platform.openai.com/docs/guides/streaming-responses?lang=csharp
 
         private readonly ResponsesClient client; 
 
@@ -35,10 +35,20 @@ namespace LLM {
             var context = selector.SelectContext(state: state);
 
             // Call the end point with context, call with serialized context
-            ResponseResult response = await client
-                .CreateResponseAsync(userInputText: Serializer.Serialize(value: context))
-                .ConfigureAwait(false);         // null check + avoid context capture --ChatGPT
-            return response.GetOutputText();    // only generated text is returned
+            var responses = client.CreateResponseStreamingAsync(userInputText: Serializer.Serialize(context));
+            if (responses == null) {
+                throw new Exception($"request to {client.Model} failed");
+            }
+
+            // now print as the model generates response and accumulate all updates into a single string
+            await foreach (StreamingResponseUpdate update in responses) {
+                if (update.Content != null) {
+                    Console.WriteLine(update.Content);
+                }
+            }
+            Console.WriteLine();
+
+            return 
         }
     }
 

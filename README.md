@@ -29,8 +29,9 @@ a minimal data-flow diagram ![Data Flow Diagram](App_Data_Flow.png)
 1.  https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/tutorials/
 ## OpenAI API
 1.  https://platform.openai.com/docs/api-reference/authentication?utm_source=chatgpt.com
-2.  https://github.com/openai/openai-dotnet/tree/main
-3.  https://platform.openai.com/docs/guides/text
+2.  https://platform.openai.com/docs/guides/streaming-responses
+3.  https://github.com/openai/openai-dotnet/tree/main
+4.  https://platform.openai.com/docs/guides/text
 
 # Design Notes
 - ``context``, the user-assistant chat history list, is passed into the LLM as a serialized JSON list.
